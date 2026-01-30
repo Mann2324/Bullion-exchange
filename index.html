@@ -10,23 +10,30 @@
 
 <style>
 :root{
-  --bg:#14181f;
-  --panel:#1e242d;
-  --border:#2e3542;
+  --bg:#141820;
+  --panel:#1e2430;
+  --border:#2e3545;
   --text:#e7eaee;
   --muted:#9aa4b2;
-
-  --gold:#d4af37;
-  --silver:#cfd4dc;
-  --copper:#d08c60;
 
   --green:#22c55e;
   --red:#ef4444;
   --grey:#9ca3af;
+
+  --gold:#d4af37;
+  --silver:#cfd4dc;
+  --copper:#d08c60;
+}
+
+[data-theme="light"]{
+  --bg:#eef1f5;
+  --panel:#ffffff;
+  --border:#d1d5db;
+  --text:#111827;
+  --muted:#4b5563;
 }
 
 *{box-sizing:border-box}
-
 body{
   margin:0;
   font-family:Inter,sans-serif;
@@ -34,23 +41,19 @@ body{
   color:var(--text);
 }
 
-/* ───────── TOP BAR ───────── */
+/* TOP BAR */
 .topbar{
   background:var(--panel);
   border-bottom:1px solid var(--border);
-  padding:10px 14px;
+  padding:10px 16px;
   display:flex;
   justify-content:space-between;
   align-items:center;
   font-size:13px;
 }
+.brand{font-weight:500}
 
-.brand{
-  font-weight:500;
-  letter-spacing:.3px;
-}
-
-/* ───────── MARKET STATUS ───────── */
+/* STATUS */
 .status{
   display:flex;
   align-items:center;
@@ -58,110 +61,132 @@ body{
   color:var(--muted);
 }
 .dot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
+  width:8px;height:8px;border-radius:50%;
 }
 
-/* ───────── TICKER ───────── */
+/* THEME TOGGLE */
+.toggle{
+  cursor:pointer;
+  border:1px solid var(--border);
+  background:none;
+  color:var(--muted);
+  padding:4px 8px;
+  border-radius:6px;
+  font-size:12px;
+}
+
+/* TICKER */
 .ticker{
   position:sticky;
   top:0;
   z-index:10;
   background:var(--panel);
   border-bottom:1px solid var(--border);
-  height:34px;
+  height:32px;
   display:flex;
   align-items:center;
   gap:10px;
-  padding:0 14px;
+  padding:0 16px;
 }
-
 .pulse{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  animation:pulse 1.4s infinite ease-in-out;
+  width:8px;height:8px;border-radius:50%;
+  animation:pulse 1.4s infinite;
 }
-
 @keyframes pulse{
   0%{transform:scale(1);opacity:.6}
   50%{transform:scale(1.6);opacity:1}
   100%{transform:scale(1);opacity:.6}
 }
-
 .ticker-text{
   font-size:12px;
   color:var(--muted);
   letter-spacing:.4px;
 }
 
-/* ───────── LAYOUT ───────── */
+/* LAYOUT */
 .container{
-  max-width:1100px;
-  margin:18px auto;
-  padding:0 14px;
+  max-width:1150px;
+  margin:20px auto;
+  padding:0 16px;
 }
 
-/* ───────── PRICE CARDS ───────── */
+/* CARDS */
 .cards{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:14px;
+  gap:16px;
 }
-
 .card{
   background:var(--panel);
   border:1px solid var(--border);
-  border-radius:12px;
-  padding:14px;
+  border-radius:14px;
+  padding:16px;
   cursor:pointer;
 }
-
-.card.active{
-  border-color:var(--gold);
-}
-
+.card.active{border-color:var(--gold)}
 .card h3{
   margin:0;
   font-size:13px;
   color:var(--muted);
 }
-
 .price{
   margin-top:6px;
-  font-size:24px;
+  font-size:26px;
   font-weight:600;
 }
-.price small{
-  font-size:14px;
-  color:var(--muted);
-  margin-right:4px;
+.change{
+  font-size:12px;
+  margin-top:4px;
 }
+.up{color:var(--green)}
+.down{color:var(--red)}
+.same{color:var(--muted)}
 
-/* ───────── META ───────── */
+/* META */
 .meta{
-  margin:12px 2px;
+  margin:12px 4px;
   font-size:13px;
   color:var(--muted);
 }
 
-/* ───────── CHART ───────── */
+/* CHART */
 .chart-box{
-  margin-top:22px;
   background:var(--panel);
   border:1px solid var(--border);
-  border-radius:12px;
-  padding:14px;
+  border-radius:14px;
+  padding:16px;
+  margin-top:20px;
 }
 
-/* ───────── SECTIONS ───────── */
+/* TABLE */
+.table-box{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+  margin-top:30px;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+th,td{
+  padding:12px;
+  border-bottom:1px solid var(--border);
+  font-size:13px;
+}
+th{
+  background:rgba(0,0,0,.08);
+  color:var(--muted);
+  font-weight:500;
+}
+
+/* TEXT SECTIONS */
 .section{
-  margin-top:36px;
+  margin-top:40px;
 }
 .section h2{
   font-size:14px;
-  font-weight:600;
   margin-bottom:8px;
 }
 .text{
@@ -170,7 +195,7 @@ body{
   line-height:1.6;
 }
 
-/* ───────── FOOTER ───────── */
+/* FOOTER */
 footer{
   margin:50px 0 20px;
   text-align:center;
@@ -182,13 +207,14 @@ footer{
 
 <body>
 
-<!-- TOP BAR -->
 <div class="topbar">
   <div class="brand">Bullion Exchange</div>
-  <div class="status" id="marketStatus"></div>
+  <div style="display:flex;gap:14px;align-items:center">
+    <div class="status" id="marketStatus"></div>
+    <button class="toggle" onclick="toggleTheme()">☀︎ / ☾</button>
+  </div>
 </div>
 
-<!-- TICKER -->
 <div class="ticker">
   <div class="pulse" id="pulseDot"></div>
   <div class="ticker-text">
@@ -200,19 +226,20 @@ footer{
 
   <!-- PRICE CARDS -->
   <div class="cards">
-    <div class="card active" id="goldCard" onclick="selectMetal('gold')">
+    <div class="card active" onclick="selectMetal('gold')" id="goldCard">
       <h3>Gold</h3>
-      <div class="price"><small>₹</small><span id="goldPrice">--</span></div>
+      <div class="price">₹ <span id="goldPrice">--</span></div>
+      <div class="change" id="goldChange"></div>
     </div>
-
-    <div class="card" id="silverCard" onclick="selectMetal('silver')">
+    <div class="card" onclick="selectMetal('silver')" id="silverCard">
       <h3>Silver</h3>
-      <div class="price"><small>₹</small><span id="silverPrice">--</span></div>
+      <div class="price">₹ <span id="silverPrice">--</span></div>
+      <div class="change" id="silverChange"></div>
     </div>
-
-    <div class="card" id="copperCard" onclick="selectMetal('copper')">
+    <div class="card" onclick="selectMetal('copper')" id="copperCard">
       <h3>Copper</h3>
-      <div class="price"><small>₹</small><span id="copperPrice">--</span></div>
+      <div class="price">₹ <span id="copperPrice">--</span></div>
+      <div class="change" id="copperChange"></div>
     </div>
   </div>
 
@@ -222,16 +249,30 @@ footer{
 
   <!-- CHART -->
   <div class="chart-box">
-    <canvas id="priceChart"></canvas>
+    <canvas id="chart"></canvas>
+  </div>
+
+  <!-- HISTORY TABLE -->
+  <div class="table-box">
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Gold</th>
+          <th>Silver</th>
+          <th>Copper</th>
+        </tr>
+      </thead>
+      <tbody id="historyTable"></tbody>
+    </table>
   </div>
 
   <!-- ABOUT -->
   <div class="section">
     <h2>About Bullion Exchange</h2>
     <div class="text">
-      Bullion Exchange is a market reference platform providing indicative prices
-      for Gold, Silver, and Copper. The platform is owned and operated by
-      the Matangi Group.
+      Bullion Exchange is a bullion price reference platform operated by the Matangi Group,
+      providing indicative Gold, Silver, and Copper prices with clarity and transparency.
     </div>
   </div>
 
@@ -239,9 +280,8 @@ footer{
   <div class="section">
     <h2>Legal Disclaimer</h2>
     <div class="text">
-      Prices shown are indicative and for informational purposes only.
-      Actual market prices may differ based on purity, location, taxes,
-      and dealer margins.
+      Prices are indicative and for informational purposes only.
+      Actual prices may vary based on purity, taxes, location, and dealer margins.
     </div>
   </div>
 
@@ -253,15 +293,22 @@ footer{
 
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbzLuzNFl0G77hfBCSpiMaEg6b8_yqsXobBlrYmvNZLpXTp6ScehlpkNGI0w4ZpPME94Gw/exec";
-
+let activeMetal = "gold";
 let chart;
 let historyData = [];
-let activeMetal = "gold";
+
+/* THEME */
+function toggleTheme(){
+  const cur = document.documentElement.getAttribute("data-theme");
+  document.documentElement.setAttribute("data-theme", cur==="light"?"":"light");
+  localStorage.setItem("theme", cur==="light"?"dark":"light");
+}
+if(localStorage.getItem("theme")==="light"){
+  document.documentElement.setAttribute("data-theme","light");
+}
 
 /* FETCH DATA */
-fetch(API_URL)
-.then(r=>r.json())
-.then(data=>{
+fetch(API_URL).then(r=>r.json()).then(data=>{
   const { current, history } = data;
   historyData = history || [];
 
@@ -270,59 +317,56 @@ fetch(API_URL)
   copperPrice.textContent = current.copper;
   updated.textContent = current.updated;
 
-  setMarketStatus();
-  setPulseColor();
-  renderChart();
+  fillTable();
+  calcChanges(current);
+  marketIndicator();
+  drawChart();
 });
 
 /* MARKET STATUS */
-function setMarketStatus(){
-  const d = new Date().getDay();
-  let text,color;
-
-  if(d === 0){
-    text="Holiday"; color="var(--grey)";
-  }else if(d === 6){
-    text="Closed"; color="var(--red)";
-  }else{
-    text="Open"; color="var(--green)";
-  }
-
-  marketStatus.innerHTML = `
-    <span class="dot" style="background:${color}"></span>${text}
-  `;
-  document.getElementById("pulseDot").style.background = color;
+function marketIndicator(){
+  const d=new Date().getDay();
+  let c,t;
+  if(d===0){c="var(--grey)";t="Holiday";}
+  else if(d===6){c="var(--red)";t="Closed";}
+  else{c="var(--green)";t="Open";}
+  marketStatus.innerHTML=`<span class="dot" style="background:${c}"></span>${t}`;
+  pulseDot.style.background=c;
 }
 
-function setPulseColor(){
-  document.getElementById("pulseDot").style.background =
-    activeMetal==="gold" ? "var(--gold)" :
-    activeMetal==="silver" ? "var(--silver)" :
-    "var(--copper)";
+/* % CHANGE */
+function calcChanges(cur){
+  if(!historyData[0]) return;
+  setChange("gold",cur.gold,historyData[0].gold);
+  setChange("silver",cur.silver,historyData[0].silver);
+  setChange("copper",cur.copper,historyData[0].copper);
+}
+function setChange(m,c,p){
+  const diff=((c-p)/p*100).toFixed(2);
+  const el=document.getElementById(m+"Change");
+  if(diff>0) el.className="change up",el.innerHTML=`▲ ${diff}%`;
+  else if(diff<0) el.className="change down",el.innerHTML=`▼ ${Math.abs(diff)}%`;
+  else el.className="change same",el.innerHTML="▬ 0.00%";
 }
 
 /* CHART */
-function renderChart(){
-  const labels = historyData.map(h=>h.date);
-  const values = historyData.map(h=>h[activeMetal]);
-
+function drawChart(){
   if(chart) chart.destroy();
-
-  chart = new Chart(document.getElementById("priceChart"),{
+  chart=new Chart(document.getElementById("chart"),{
     type:"line",
     data:{
-      labels,
+      labels:historyData.map(h=>h.date),
       datasets:[{
-        data:values,
+        data:historyData.map(h=>h[activeMetal]),
         borderColor:
-          activeMetal==="gold" ? "#d4af37" :
-          activeMetal==="silver" ? "#cfd4dc" :
-          "#d08c60",
+          activeMetal==="gold"? "#d4af37":
+          activeMetal==="silver"? "#cfd4dc":"#d08c60",
         tension:.35
       }]
     },
     options:{
       plugins:{legend:{display:false}},
+      interaction:{mode:"index",intersect:false},
       scales:{
         x:{ticks:{color:"#9aa4b2"}},
         y:{ticks:{color:"#9aa4b2"}}
@@ -330,14 +374,25 @@ function renderChart(){
     }
   });
 }
-
-/* METAL SWITCH */
 function selectMetal(m){
-  activeMetal = m;
+  activeMetal=m;
   document.querySelectorAll(".card").forEach(c=>c.classList.remove("active"));
   document.getElementById(m+"Card").classList.add("active");
-  setPulseColor();
-  renderChart();
+  drawChart();
+}
+
+/* TABLE */
+function fillTable(){
+  historyTable.innerHTML="";
+  historyData.forEach(h=>{
+    historyTable.innerHTML+=`
+      <tr>
+        <td>${h.date}</td>
+        <td>₹ ${h.gold}</td>
+        <td>₹ ${h.silver}</td>
+        <td>₹ ${h.copper}</td>
+      </tr>`;
+  });
 }
 </script>
 

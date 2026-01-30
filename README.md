@@ -1,2 +1,2 @@
-# Bullion-exchange-
+# Bullion-exchange
 Gold silver and copper price 

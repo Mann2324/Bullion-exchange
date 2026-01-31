@@ -25,14 +25,6 @@
   --copper:#d08c60;
 }
 
-[data-theme="light"]{
-  --bg:#eef1f5;
-  --panel:#ffffff;
-  --border:#d1d5db;
-  --text:#111827;
-  --muted:#4b5563;
-}
-
 *{box-sizing:border-box}
 body{
   margin:0;
@@ -41,39 +33,18 @@ body{
   color:var(--text);
 }
 
-/* TOP BAR */
-.topbar{
+/* HEADER */
+.header{
   background:var(--panel);
   border-bottom:1px solid var(--border);
-  padding:10px 16px;
+  padding:12px 16px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  font-size:13px;
 }
 .brand{font-weight:500}
-
-/* STATUS */
-.status{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  color:var(--muted);
-}
-.dot{
-  width:8px;height:8px;border-radius:50%;
-}
-
-/* THEME TOGGLE */
-.toggle{
-  cursor:pointer;
-  border:1px solid var(--border);
-  background:none;
-  color:var(--muted);
-  padding:4px 8px;
-  border-radius:6px;
-  font-size:12px;
-}
+.status{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%}
 
 /* TICKER */
 .ticker{
@@ -82,26 +53,27 @@ body{
   z-index:10;
   background:var(--panel);
   border-bottom:1px solid var(--border);
-  height:32px;
+  height:34px;
+  overflow:hidden;
   display:flex;
   align-items:center;
-  gap:10px;
-  padding:0 16px;
 }
-.pulse{
-  width:8px;height:8px;border-radius:50%;
-  animation:pulse 1.4s infinite;
-}
-@keyframes pulse{
-  0%{transform:scale(1);opacity:.6}
-  50%{transform:scale(1.6);opacity:1}
-  100%{transform:scale(1);opacity:.6}
-}
-.ticker-text{
+.ticker-track{
+  display:inline-flex;
+  gap:48px;
+  white-space:nowrap;
+  padding-right:100%;
+  animation:tickerMove 22s linear infinite;
   font-size:12px;
-  color:var(--muted);
-  letter-spacing:.4px;
 }
+@keyframes tickerMove{
+  from{transform:translateX(100%)}
+  to{transform:translateX(-100%)}
+}
+.tick-item{display:flex;align-items:center;gap:8px}
+.tick-up{color:var(--green)}
+.tick-down{color:var(--red)}
+.tick-flat{color:var(--grey)}
 
 /* LAYOUT */
 .container{
@@ -124,39 +96,22 @@ body{
   cursor:pointer;
 }
 .card.active{border-color:var(--gold)}
-.card h3{
-  margin:0;
-  font-size:13px;
-  color:var(--muted);
-}
-.price{
-  margin-top:6px;
-  font-size:26px;
-  font-weight:600;
-}
-.change{
-  font-size:12px;
-  margin-top:4px;
-}
-.up{color:var(--green)}
-.down{color:var(--red)}
-.same{color:var(--muted)}
+.card h3{margin:0;font-size:13px;color:var(--muted)}
+.price{font-size:26px;font-weight:600;margin-top:6px}
+.change{font-size:13px;margin-top:4px}
 
 /* META */
-.meta{
-  margin:12px 4px;
-  font-size:13px;
-  color:var(--muted);
-}
+.meta{margin:12px 4px;font-size:13px;color:var(--muted)}
 
 /* CHART */
 .chart-box{
   background:var(--panel);
   border:1px solid var(--border);
   border-radius:14px;
-  padding:16px;
-  margin-top:20px;
+  padding:20px;
+  margin-top:24px;
 }
+.chart-price{font-size:22px;font-weight:600;margin-bottom:10px}
 
 /* TABLE */
 .table-box{
@@ -166,38 +121,31 @@ body{
   overflow:hidden;
   margin-top:30px;
 }
-table{
-  width:100%;
-  border-collapse:collapse;
-}
+table{width:100%;border-collapse:collapse}
 th,td{
   padding:12px;
   border-bottom:1px solid var(--border);
   font-size:13px;
 }
-th{
-  background:rgba(0,0,0,.08);
-  color:var(--muted);
-  font-weight:500;
-}
+th{color:var(--muted);font-weight:500}
 
-/* TEXT SECTIONS */
-.section{
-  margin-top:40px;
-}
-.section h2{
-  font-size:14px;
-  margin-bottom:8px;
-}
-.text{
+/* NEWS */
+.news{margin-top:30px}
+.news p{
   font-size:13px;
   color:var(--muted);
-  line-height:1.6;
+  padding:8px 0;
+  border-bottom:1px solid var(--border);
 }
+
+/* TEXT */
+.section{margin-top:40px}
+.section h2{font-size:14px;margin-bottom:8px}
+.section p{font-size:13px;color:var(--muted);line-height:1.6}
 
 /* FOOTER */
 footer{
-  margin:50px 0 20px;
+  margin:40px 0 20px;
   text-align:center;
   font-size:12px;
   color:var(--muted);
@@ -207,184 +155,165 @@ footer{
 
 <body>
 
-<div class="topbar">
+<div class="header">
   <div class="brand">Bullion Exchange</div>
-  <div style="display:flex;gap:14px;align-items:center">
-    <div class="status" id="marketStatus"></div>
-    <button class="toggle" onclick="toggleTheme()">☀︎ / ☾</button>
-  </div>
+  <div class="status" id="marketStatus"></div>
 </div>
 
 <div class="ticker">
-  <div class="pulse" id="pulseDot"></div>
-  <div class="ticker-text">
-    Bullion Exchange · Gold · Silver · Copper
-  </div>
+  <div class="ticker-track" id="tickerTrack">Loading market…</div>
 </div>
 
 <div class="container">
 
   <!-- PRICE CARDS -->
   <div class="cards">
-    <div class="card active" onclick="selectMetal('gold')" id="goldCard">
+    <div class="card active" id="goldCard" onclick="selectMetal('gold')">
       <h3>Gold</h3>
       <div class="price">₹ <span id="goldPrice">--</span></div>
       <div class="change" id="goldChange"></div>
     </div>
-    <div class="card" onclick="selectMetal('silver')" id="silverCard">
+    <div class="card" id="silverCard" onclick="selectMetal('silver')">
       <h3>Silver</h3>
       <div class="price">₹ <span id="silverPrice">--</span></div>
       <div class="change" id="silverChange"></div>
     </div>
-    <div class="card" onclick="selectMetal('copper')" id="copperCard">
+    <div class="card" id="copperCard" onclick="selectMetal('copper')">
       <h3>Copper</h3>
       <div class="price">₹ <span id="copperPrice">--</span></div>
       <div class="change" id="copperChange"></div>
     </div>
   </div>
 
-  <div class="meta">
-    Last Updated: <span id="updated">--</span>
-  </div>
+  <div class="meta">Last Updated: <span id="updated">--</span></div>
 
   <!-- CHART -->
   <div class="chart-box">
-    <canvas id="chart"></canvas>
+    <div class="chart-price" id="chartPrice">₹ --</div>
+    <canvas id="chart" height="120"></canvas>
   </div>
 
-  <!-- HISTORY TABLE -->
+  <!-- HISTORY -->
   <div class="table-box">
     <table>
       <thead>
-        <tr>
-          <th>Date</th>
-          <th>Gold</th>
-          <th>Silver</th>
-          <th>Copper</th>
-        </tr>
+        <tr><th>Date</th><th>Gold</th><th>Silver</th><th>Copper</th></tr>
       </thead>
       <tbody id="historyTable"></tbody>
     </table>
   </div>
 
+  <!-- NEWS -->
+  <div class="news" id="news"></div>
+
   <!-- ABOUT -->
   <div class="section">
     <h2>About Bullion Exchange</h2>
-    <div class="text">
-      Bullion Exchange is a bullion price reference platform operated by the Matangi Group,
-      providing indicative Gold, Silver, and Copper prices with clarity and transparency.
-    </div>
+    <p>
+      Bullion Exchange is a price reference platform operated by the Matangi Group,
+      providing indicative Gold, Silver, and Copper prices.
+    </p>
   </div>
 
   <!-- DISCLAIMER -->
   <div class="section">
     <h2>Legal Disclaimer</h2>
-    <div class="text">
-      Prices are indicative and for informational purposes only.
-      Actual prices may vary based on purity, taxes, location, and dealer margins.
-    </div>
+    <p>
+      Prices are indicative and for information only. Actual market prices may differ
+      based on purity, taxes, and dealer margins.
+    </p>
   </div>
 
 </div>
 
-<footer>
-  © Bullion Exchange — A Matangi Group Company
-</footer>
+<footer>© Bullion Exchange — A Matangi Group Company</footer>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbzLuzNFl0G77hfBCSpiMaEg6b8_yqsXobBlrYmvNZLpXTp6ScehlpkNGI0w4ZpPME94Gw/exec";
-let activeMetal = "gold";
-let chart;
-let historyData = [];
-
-/* THEME */
-function toggleTheme(){
-  const cur = document.documentElement.getAttribute("data-theme");
-  document.documentElement.setAttribute("data-theme", cur==="light"?"":"light");
-  localStorage.setItem("theme", cur==="light"?"dark":"light");
-}
-if(localStorage.getItem("theme")==="light"){
-  document.documentElement.setAttribute("data-theme","light");
-}
+const API_URL="https://script.google.com/macros/s/AKfycbzLuzNFl0G77hfBCSpiMaEg6b8_yqsXobBlrYmvNZLpXTp6ScehlpkNGI0w4ZpPME94Gw/exec";
+let active="gold", history=[], chart;
 
 /* FETCH DATA */
-fetch(API_URL).then(r=>r.json()).then(data=>{
-  const { current, history } = data;
-  historyData = history || [];
+fetch(API_URL).then(r=>r.json()).then(d=>{
+  const c=d.current; history=d.history||[];
 
-  goldPrice.textContent = current.gold;
-  silverPrice.textContent = current.silver;
-  copperPrice.textContent = current.copper;
-  updated.textContent = current.updated;
+  goldPrice.textContent=c.gold;
+  silverPrice.textContent=c.silver;
+  copperPrice.textContent=c.copper;
+  updated.textContent=c.updated;
 
+  calc("gold",c.gold,history[0]?.gold);
+  calc("silver",c.silver,history[0]?.silver);
+  calc("copper",c.copper,history[0]?.copper);
+
+  buildTicker(c,history);
   fillTable();
-  calcChanges(current);
-  marketIndicator();
   drawChart();
+  setMarket();
+
+  (d.news||[]).forEach(n=>news.innerHTML+=`<p>${n}</p>`);
 });
 
-/* MARKET STATUS */
-function marketIndicator(){
-  const d=new Date().getDay();
-  let c,t;
-  if(d===0){c="var(--grey)";t="Holiday";}
-  else if(d===6){c="var(--red)";t="Closed";}
-  else{c="var(--green)";t="Open";}
-  marketStatus.innerHTML=`<span class="dot" style="background:${c}"></span>${t}`;
-  pulseDot.style.background=c;
-}
-
-/* % CHANGE */
-function calcChanges(cur){
-  if(!historyData[0]) return;
-  setChange("gold",cur.gold,historyData[0].gold);
-  setChange("silver",cur.silver,historyData[0].silver);
-  setChange("copper",cur.copper,historyData[0].copper);
-}
-function setChange(m,c,p){
-  const diff=((c-p)/p*100).toFixed(2);
+function calc(m,cur,prev){
   const el=document.getElementById(m+"Change");
-  if(diff>0) el.className="change up",el.innerHTML=`▲ ${diff}%`;
-  else if(diff<0) el.className="change down",el.innerHTML=`▼ ${Math.abs(diff)}%`;
-  else el.className="change same",el.innerHTML="▬ 0.00%";
+  if(!prev){el.textContent="—";return}
+  const diff=cur-prev;
+  const pct=((diff/prev)*100).toFixed(2);
+  el.style.color=diff>0?"var(--green)":diff<0?"var(--red)":"var(--grey)";
+  el.textContent=`${diff>0?"+":"-"}₹${Math.abs(diff)} (${Math.abs(pct)}%)`;
 }
 
-/* CHART */
+function buildTicker(cur,h){
+  const p=h[0]||{};
+  tickerTrack.innerHTML=[
+    tick("Gold",cur.gold,p.gold),
+    tick("Silver",cur.silver,p.silver),
+    tick("Copper",cur.copper,p.copper),
+    tick("Gold",cur.gold,p.gold),
+    tick("Silver",cur.silver,p.silver),
+    tick("Copper",cur.copper,p.copper)
+  ].join("");
+}
+
+function tick(n,c,p){
+  if(!p) return "";
+  const d=c-p, pct=((d/p)*100).toFixed(2);
+  const cls=d>0?"tick-up":d<0?"tick-down":"tick-flat";
+  return `<div class="tick-item ${cls}">
+    ● Bullion Exchange | ${n} ₹${c} ${d>0?"▲":"▼"} ${d>0?"+":""}₹${Math.abs(d)} (${Math.abs(pct)}%)
+  </div>`;
+}
+
 function drawChart(){
   if(chart) chart.destroy();
-  chart=new Chart(document.getElementById("chart"),{
+  chart=new Chart(chart,{
     type:"line",
     data:{
-      labels:historyData.map(h=>h.date),
+      labels:history.map(()=>""), 
       datasets:[{
-        data:historyData.map(h=>h[activeMetal]),
-        borderColor:
-          activeMetal==="gold"? "#d4af37":
-          activeMetal==="silver"? "#cfd4dc":"#d08c60",
+        data:history.map(h=>h[active]),
+        borderColor:active==="gold"? "#d4af37":active==="silver"?"#cfd4dc":"#d08c60",
         tension:.35
       }]
     },
     options:{
       plugins:{legend:{display:false}},
       interaction:{mode:"index",intersect:false},
-      scales:{
-        x:{ticks:{color:"#9aa4b2"}},
-        y:{ticks:{color:"#9aa4b2"}}
-      }
+      scales:{x:{display:false},y:{ticks:{color:"#9aa4b2"}}}
     }
   });
+  chartPrice.textContent="₹ "+history.at(-1)?.[active];
 }
+
 function selectMetal(m){
-  activeMetal=m;
+  active=m;
   document.querySelectorAll(".card").forEach(c=>c.classList.remove("active"));
   document.getElementById(m+"Card").classList.add("active");
   drawChart();
 }
 
-/* TABLE */
 function fillTable(){
   historyTable.innerHTML="";
-  historyData.forEach(h=>{
+  history.forEach(h=>{
     historyTable.innerHTML+=`
       <tr>
         <td>${h.date}</td>
@@ -393,6 +322,14 @@ function fillTable(){
         <td>₹ ${h.copper}</td>
       </tr>`;
   });
+}
+
+function setMarket(){
+  const d=new Date().getDay();
+  marketStatus.innerHTML=
+    d===0?`<span class="dot" style="background:var(--grey)"></span>Holiday`:
+    d===6?`<span class="dot" style="background:var(--red)"></span>Closed`:
+          `<span class="dot" style="background:var(--green)"></span>Open`;
 }
 </script>
 

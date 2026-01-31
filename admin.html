@@ -2,30 +2,26 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Bullion Exchange</title>
+<title>Bullion Exchange – Admin Panel</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 :root{
-  --bg:#141820;
-  --panel:#1e2430;
-  --border:#2e3545;
+  --bg:#0f131a;
+  --panel:#161b24;
+  --card:#1c2230;
+  --border:#2b3242;
   --text:#e7eaee;
   --muted:#9aa4b2;
-
+  --accent:#d4af37;
   --green:#22c55e;
   --red:#ef4444;
-  --grey:#9ca3af;
-
-  --gold:#d4af37;
-  --silver:#cfd4dc;
-  --copper:#d08c60;
 }
 
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:Inter,sans-serif;
@@ -33,303 +29,307 @@ body{
   color:var(--text);
 }
 
-/* HEADER */
+/* ---------- LOGIN ---------- */
+.login-wrapper{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.login-box{
+  width:360px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:28px;
+}
+
+.login-box h2{
+  margin:0 0 20px;
+  font-size:18px;
+  font-weight:500;
+  text-align:center;
+}
+
+.login-box input{
+  width:100%;
+  padding:12px;
+  margin-bottom:14px;
+  background:#0c0f15;
+  border:1px solid var(--border);
+  border-radius:10px;
+  color:var(--text);
+  font-size:14px;
+}
+
+.login-box button{
+  width:100%;
+  padding:12px;
+  background:var(--accent);
+  color:#000;
+  border:none;
+  border-radius:10px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+/* ---------- HEADER ---------- */
 .header{
   background:var(--panel);
   border-bottom:1px solid var(--border);
-  padding:12px 16px;
+  padding:14px 20px;
   display:flex;
   justify-content:space-between;
   align-items:center;
 }
-.brand{font-weight:500}
-.status{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
-.dot{width:8px;height:8px;border-radius:50%}
 
-/* TICKER */
-.ticker{
-  position:sticky;
-  top:0;
-  z-index:10;
-  background:var(--panel);
-  border-bottom:1px solid var(--border);
-  height:34px;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
+.header h1{
+  font-size:16px;
+  font-weight:500;
 }
-.ticker-track{
-  display:inline-flex;
-  gap:48px;
-  white-space:nowrap;
-  padding-right:100%;
-  animation:tickerMove 22s linear infinite;
+
+.header span{
   font-size:12px;
+  color:var(--muted);
 }
-@keyframes tickerMove{
-  from{transform:translateX(100%)}
-  to{transform:translateX(-100%)}
-}
-.tick-item{display:flex;align-items:center;gap:8px}
-.tick-up{color:var(--green)}
-.tick-down{color:var(--red)}
-.tick-flat{color:var(--grey)}
 
-/* LAYOUT */
+/* ---------- LAYOUT ---------- */
 .container{
-  max-width:1150px;
-  margin:20px auto;
+  max-width:1200px;
+  margin:24px auto;
   padding:0 16px;
 }
 
-/* CARDS */
-.cards{
+.grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:16px;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
 }
+
+/* ---------- CARD ---------- */
 .card{
-  background:var(--panel);
+  background:var(--card);
   border:1px solid var(--border);
+  border-radius:18px;
+  padding:18px;
+}
+
+.card h3{
+  margin:0 0 14px;
+  font-size:14px;
+  font-weight:500;
+  color:var(--muted);
+}
+
+/* ---------- INPUTS ---------- */
+input, textarea, select{
+  width:100%;
+  padding:12px;
+  background:#0c0f15;
+  border:1px solid var(--border);
+  border-radius:10px;
+  color:var(--text);
+  font-size:14px;
+}
+
+textarea{resize:vertical}
+
+/* ---------- BUTTON ---------- */
+.main-btn{
+  margin-top:28px;
+  width:100%;
+  padding:14px;
+  background:var(--accent);
+  color:#000;
+  border:none;
   border-radius:14px;
-  padding:16px;
+  font-weight:600;
+  font-size:15px;
   cursor:pointer;
 }
-.card.active{border-color:var(--gold)}
-.card h3{margin:0;font-size:13px;color:var(--muted)}
-.price{font-size:26px;font-weight:600;margin-top:6px}
-.change{font-size:13px;margin-top:4px}
 
-/* META */
-.meta{margin:12px 4px;font-size:13px;color:var(--muted)}
+/* ---------- MODAL ---------- */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  z-index:999;
+}
 
-/* CHART */
-.chart-box{
+.modal-box{
+  max-width:380px;
+  margin:22% auto;
   background:var(--panel);
   border:1px solid var(--border);
-  border-radius:14px;
-  padding:20px;
-  margin-top:24px;
-}
-.chart-price{font-size:22px;font-weight:600;margin-bottom:10px}
-
-/* TABLE */
-.table-box{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:14px;
-  overflow:hidden;
-  margin-top:30px;
-}
-table{width:100%;border-collapse:collapse}
-th,td{
-  padding:12px;
-  border-bottom:1px solid var(--border);
-  font-size:13px;
-}
-th{color:var(--muted);font-weight:500}
-
-/* NEWS */
-.news{margin-top:30px}
-.news p{
-  font-size:13px;
-  color:var(--muted);
-  padding:8px 0;
-  border-bottom:1px solid var(--border);
-}
-
-/* TEXT */
-.section{margin-top:40px}
-.section h2{font-size:14px;margin-bottom:8px}
-.section p{font-size:13px;color:var(--muted);line-height:1.6}
-
-/* FOOTER */
-footer{
-  margin:40px 0 20px;
+  border-radius:18px;
+  padding:24px;
   text-align:center;
-  font-size:12px;
+}
+
+.modal-box h3{
+  margin-top:0;
+  font-size:16px;
+}
+
+.modal-box p{
+  font-size:13px;
   color:var(--muted);
+}
+
+.modal-box button{
+  padding:10px 18px;
+  border-radius:10px;
+  margin:10px;
+  border:none;
+  cursor:pointer;
+}
+
+.confirm{
+  background:var(--green);
+  color:#000;
+}
+
+.cancel{
+  background:#2b3242;
+  color:var(--text);
+}
+
+/* ---------- TOAST ---------- */
+.toast{
+  display:none;
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:var(--green);
+  color:#000;
+  padding:12px 18px;
+  border-radius:12px;
+  font-size:14px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-  <div class="brand">Bullion Exchange</div>
-  <div class="status" id="marketStatus"></div>
+<!-- LOGIN -->
+<div class="login-wrapper" id="loginPage">
+  <div class="login-box">
+    <h2>Bullion Exchange – Admin</h2>
+    <input type="password" id="adminPass" placeholder="Enter Admin Password">
+    <button onclick="login()">Login</button>
+  </div>
 </div>
 
-<div class="ticker">
-  <div class="ticker-track" id="tickerTrack">Loading market…</div>
+<!-- ADMIN PANEL -->
+<div id="adminPanel" style="display:none">
+
+  <div class="header">
+    <h1>Admin Control Panel</h1>
+    <span id="systemTime"></span>
+  </div>
+
+  <div class="container">
+
+    <div class="grid">
+
+      <!-- PRICES -->
+      <div class="card">
+        <h3>Update Prices</h3>
+        <input id="gold" placeholder="Gold Price">
+        <input id="silver" placeholder="Silver Price">
+        <input id="copper" placeholder="Copper Price">
+      </div>
+
+      <!-- MARKET STATUS -->
+      <div class="card">
+        <h3>Market Status</h3>
+        <select id="market">
+          <option value="auto">Auto (System)</option>
+          <option value="open">Open</option>
+          <option value="closed">Closed</option>
+          <option value="holiday">Holiday</option>
+        </select>
+      </div>
+
+      <!-- MARKET NEWS -->
+      <div class="card">
+        <h3>Market News</h3>
+        <textarea id="news" rows="6" placeholder="Write one news per line"></textarea>
+      </div>
+
+      <!-- ABOUT -->
+      <div class="card">
+        <h3>About Company</h3>
+        <textarea id="about" rows="5"></textarea>
+      </div>
+
+      <!-- DISCLAIMER -->
+      <div class="card">
+        <h3>Legal Disclaimer</h3>
+        <textarea id="disclaimer" rows="5"></textarea>
+      </div>
+
+    </div>
+
+    <button class="main-btn" onclick="openConfirm()">Apply All Changes</button>
+
+  </div>
 </div>
 
-<div class="container">
-
-  <!-- PRICE CARDS -->
-  <div class="cards">
-    <div class="card active" id="goldCard" onclick="selectMetal('gold')">
-      <h3>Gold</h3>
-      <div class="price">₹ <span id="goldPrice">--</span></div>
-      <div class="change" id="goldChange"></div>
-    </div>
-    <div class="card" id="silverCard" onclick="selectMetal('silver')">
-      <h3>Silver</h3>
-      <div class="price">₹ <span id="silverPrice">--</span></div>
-      <div class="change" id="silverChange"></div>
-    </div>
-    <div class="card" id="copperCard" onclick="selectMetal('copper')">
-      <h3>Copper</h3>
-      <div class="price">₹ <span id="copperPrice">--</span></div>
-      <div class="change" id="copperChange"></div>
-    </div>
+<!-- CONFIRM MODAL -->
+<div class="modal" id="confirmModal">
+  <div class="modal-box">
+    <h3>Confirm Update</h3>
+    <p>Are you sure you want to apply all changes?</p>
+    <button class="cancel" onclick="closeConfirm()">Cancel</button>
+    <button class="confirm" onclick="submitData()">Confirm</button>
   </div>
-
-  <div class="meta">Last Updated: <span id="updated">--</span></div>
-
-  <!-- CHART -->
-  <div class="chart-box">
-    <div class="chart-price" id="chartPrice">₹ --</div>
-    <canvas id="chart" height="120"></canvas>
-  </div>
-
-  <!-- HISTORY -->
-  <div class="table-box">
-    <table>
-      <thead>
-        <tr><th>Date</th><th>Gold</th><th>Silver</th><th>Copper</th></tr>
-      </thead>
-      <tbody id="historyTable"></tbody>
-    </table>
-  </div>
-
-  <!-- NEWS -->
-  <div class="news" id="news"></div>
-
-  <!-- ABOUT -->
-  <div class="section">
-    <h2>About Bullion Exchange</h2>
-    <p>
-      Bullion Exchange is a price reference platform operated by the Matangi Group,
-      providing indicative Gold, Silver, and Copper prices.
-    </p>
-  </div>
-
-  <!-- DISCLAIMER -->
-  <div class="section">
-    <h2>Legal Disclaimer</h2>
-    <p>
-      Prices are indicative and for information only. Actual market prices may differ
-      based on purity, taxes, and dealer margins.
-    </p>
-  </div>
-
 </div>
 
-<footer>© Bullion Exchange — A Matangi Group Company</footer>
+<div class="toast" id="toast">Updated successfully ✔</div>
 
 <script>
-const API_URL="https://script.google.com/macros/s/AKfycbzLuzNFl0G77hfBCSpiMaEg6b8_yqsXobBlrYmvNZLpXTp6ScehlpkNGI0w4ZpPME94Gw/exec";
-let active="gold", history=[], chart;
+const API_URL = "https://script.google.com/macros/s/AKfycbzLuzNFl0G77hfBCSpiMaEg6b8_yqsXobBlrYmvNZLpXTp6ScehlpkNGI0w4ZpPME94Gw/exec";
+const PASSWORD = "1234";
 
-/* FETCH DATA */
-fetch(API_URL).then(r=>r.json()).then(d=>{
-  const c=d.current; history=d.history||[];
+/* TIME */
+systemTime.innerText = new Date().toLocaleString("en-IN",{timeZone:"Asia/Kolkata"});
 
-  goldPrice.textContent=c.gold;
-  silverPrice.textContent=c.silver;
-  copperPrice.textContent=c.copper;
-  updated.textContent=c.updated;
-
-  calc("gold",c.gold,history[0]?.gold);
-  calc("silver",c.silver,history[0]?.silver);
-  calc("copper",c.copper,history[0]?.copper);
-
-  buildTicker(c,history);
-  fillTable();
-  drawChart();
-  setMarket();
-
-  (d.news||[]).forEach(n=>news.innerHTML+=`<p>${n}</p>`);
-});
-
-function calc(m,cur,prev){
-  const el=document.getElementById(m+"Change");
-  if(!prev){el.textContent="—";return}
-  const diff=cur-prev;
-  const pct=((diff/prev)*100).toFixed(2);
-  el.style.color=diff>0?"var(--green)":diff<0?"var(--red)":"var(--grey)";
-  el.textContent=`${diff>0?"+":"-"}₹${Math.abs(diff)} (${Math.abs(pct)}%)`;
+/* LOGIN */
+function login(){
+  if(adminPass.value === PASSWORD){
+    loginPage.style.display="none";
+    adminPanel.style.display="block";
+  }else{
+    alert("Incorrect password");
+  }
 }
 
-function buildTicker(cur,h){
-  const p=h[0]||{};
-  tickerTrack.innerHTML=[
-    tick("Gold",cur.gold,p.gold),
-    tick("Silver",cur.silver,p.silver),
-    tick("Copper",cur.copper,p.copper),
-    tick("Gold",cur.gold,p.gold),
-    tick("Silver",cur.silver,p.silver),
-    tick("Copper",cur.copper,p.copper)
-  ].join("");
-}
+/* MODAL */
+function openConfirm(){ confirmModal.style.display="block"; }
+function closeConfirm(){ confirmModal.style.display="none"; }
 
-function tick(n,c,p){
-  if(!p) return "";
-  const d=c-p, pct=((d/p)*100).toFixed(2);
-  const cls=d>0?"tick-up":d<0?"tick-down":"tick-flat";
-  return `<div class="tick-item ${cls}">
-    ● Bullion Exchange | ${n} ₹${c} ${d>0?"▲":"▼"} ${d>0?"+":""}₹${Math.abs(d)} (${Math.abs(pct)}%)
-  </div>`;
-}
+/* SUBMIT */
+function submitData(){
+  closeConfirm();
 
-function drawChart(){
-  if(chart) chart.destroy();
-  chart=new Chart(chart,{
-    type:"line",
-    data:{
-      labels:history.map(()=>""), 
-      datasets:[{
-        data:history.map(h=>h[active]),
-        borderColor:active==="gold"? "#d4af37":active==="silver"?"#cfd4dc":"#d08c60",
-        tension:.35
-      }]
-    },
-    options:{
-      plugins:{legend:{display:false}},
-      interaction:{mode:"index",intersect:false},
-      scales:{x:{display:false},y:{ticks:{color:"#9aa4b2"}}}
-    }
+  fetch(API_URL,{
+    method:"POST",
+    body:JSON.stringify({
+      gold: gold.value,
+      silver: silver.value,
+      copper: copper.value,
+      market: market.value,
+      news: news.value.split("\n").filter(n=>n.trim()),
+      about: about.value,
+      disclaimer: disclaimer.value
+    })
+  }).then(()=>{
+    toast.style.display="block";
+    setTimeout(()=>toast.style.display="none",2000);
   });
-  chartPrice.textContent="₹ "+history.at(-1)?.[active];
-}
-
-function selectMetal(m){
-  active=m;
-  document.querySelectorAll(".card").forEach(c=>c.classList.remove("active"));
-  document.getElementById(m+"Card").classList.add("active");
-  drawChart();
-}
-
-function fillTable(){
-  historyTable.innerHTML="";
-  history.forEach(h=>{
-    historyTable.innerHTML+=`
-      <tr>
-        <td>${h.date}</td>
-        <td>₹ ${h.gold}</td>
-        <td>₹ ${h.silver}</td>
-        <td>₹ ${h.copper}</td>
-      </tr>`;
-  });
-}
-
-function setMarket(){
-  const d=new Date().getDay();
-  marketStatus.innerHTML=
-    d===0?`<span class="dot" style="background:var(--grey)"></span>Holiday`:
-    d===6?`<span class="dot" style="background:var(--red)"></span>Closed`:
-          `<span class="dot" style="background:var(--green)"></span>Open`;
 }
 </script>
 
